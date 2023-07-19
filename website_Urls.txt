@@ -1,0 +1,3 @@
+website Url:http://schoolsystem.test/en/dashboard
+username:admin@admin.com
+password:123456
