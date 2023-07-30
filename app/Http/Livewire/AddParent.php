@@ -8,6 +8,7 @@ use App\Models\ParentAttachment;
 use App\Models\Religion;
 use App\Models\Type_Blood;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -23,10 +24,14 @@ class AddParent extends Component
     public $catchError;
     // Upload Files
     public $photos ;
-
+    // Hide "Update Mode"
     public $updateMode = false;
     // "Step" of "form wizard"
     public $currentStep = 1 ;
+    // show "parents table"
+    public $show_table = true;
+    // "id" of "edited parent"
+    public $Parent_id;
     // +++++++++++++++++++ Form Wizard Variables +++++++++++++++++++
     public
         // ------------- Father inputFields -------------
@@ -49,6 +54,7 @@ class AddParent extends Component
             "Nationalities" => Nationalitie::all() ,
             "Type_Bloods"   => Type_Blood::all()   ,
             "Religions"     => Religion::all() ,
+            "my_parents"   => My_Parent::all() ,
         ]);
     }
     // +++++++++++++++ "Father" And "Mother" Form Validation : RealTime Validation ++++++++++++++++++++
@@ -64,6 +70,7 @@ class AddParent extends Component
             'Phone_Mother' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10'
         ]);
     }
+    // ================================== Add "New Parent" ==================================
     // +++++++++++++++ firstStepSubmit() : Go To "Step 2" +++++++++++++++
     public function firstStepSubmit()
     {
@@ -111,13 +118,12 @@ class AddParent extends Component
     {
         $this->currentStep = $step;
     }
-    // ++++++++++++++++++++++++++++++++ insert Data : submitForm() ++++++++++++++++++++++++++++++++
+    // +++++++++++++++ insert method : submitForm() +++++++++++++++
     public function submitForm()
     {
-        try
-        {
+        try {
             $My_Parent = new My_Parent();
-            // +++++++++++++++++ Step 1 : Father_INPUTS +++++++++++++++++
+            // Father_INPUTS
             $My_Parent->Email = $this->Email;
             $My_Parent->Password = Hash::make($this->Password);
             $My_Parent->Name_Father = ['en' => $this->Name_Father_en, 'ar' => $this->Name_Father];
@@ -130,7 +136,8 @@ class AddParent extends Component
             $My_Parent->Blood_Type_Father_id = $this->Blood_Type_Father_id;
             $My_Parent->Religion_Father_id = $this->Religion_Father_id;
             $My_Parent->Address_Father = $this->Address_Father;
-            // +++++++++++++++++ Step 2 : Mother_INPUTS +++++++++++++++++
+
+            // Mother_INPUTS
             $My_Parent->Name_Mother = ['en' => $this->Name_Mother_en, 'ar' => $this->Name_Mother];
             $My_Parent->National_ID_Mother = $this->National_ID_Mother;
             $My_Parent->Passport_ID_Mother = $this->Passport_ID_Mother;
@@ -142,69 +149,184 @@ class AddParent extends Component
             $My_Parent->Religion_Mother_id = $this->Religion_Mother_id;
             $My_Parent->Address_Mother = $this->Address_Mother;
             $My_Parent->save();
-            // -------------------------------- Attachments --------------------------------
-            // Insert "Photos" in "Parent_Attachment" table
+            // +++++++++++++++ Upload Multiple Attachment Files +++++++++++++++
             if (!empty($this->photos))
             {
                 foreach ($this->photos as $photo)
                 {
-                    // Store "photos" in "Storage Folder"
-                    $photo->storeAs( $this->National_ID_Father,
-                                     $photo->getClientOriginalName(),
-                                     $disk = 'parent_attachments'
-                                    );
-                    // Store "photos" in "parent_attachments" Table in DB
+                    // Store "images" in "Public" Directory
+                    $photo->storeAs($this->National_ID_Father, $photo->getClientOriginalName(), $disk = 'parent_attachments');
+                    // Store "images" in "parent_attachments" table in DB
                     ParentAttachment::create([
                         'file_name' => $photo->getClientOriginalName(),
-                        // Get the "latest parent_id" from "my_parents" table
                         'parent_id' => My_Parent::latest()->first()->id,
                     ]);
                 }
             }
-            // -------------------------------- Success Message --------------------------------
             $this->successMessage = trans('messages.success');
-            // -------------------------------- Clear Form Data --------------------------------
-            // Execute clearForm() method : Clear "Data" of "inputFields"
             $this->clearForm();
-            // -------------------------------- Go To "Step 1" --------------------------------
             $this->currentStep = 1;
         }
-        catch (\Exception $e)
-        {
+
+        catch (\Exception $e) {
             $this->catchError = $e->getMessage();
         };
     }
-    // ++++++++++++++++++++++++++++++++ clearForm() : Clear inputFields ++++++++++++++++++++++++++++++++
-    public function clearForm()
+    // ================================== Edit "Parent" ==================================
+    // +++++++++++++++ edit method : edit() +++++++++++++++
+    public function edit($id)
     {
-        $this->Email = "";
-        $this->Password = "";
-        // Arabic "Name_Father" , English "Name_Father"
-        $this->Name_Father_en = "";
-        $this->Name_Father="";
-        $this->National_ID_Father="";
-        $this->Passport_ID_Father="";
-        $this->Phone_Father="";
-        // Arabic "Job_Father" , English "Job_Father"
-        $this->Job_Father_en = "" ;
-        $this->Job_Father = "";
-        $this->Passport_ID_Father="";
-        $this->Nationality_Father_id="";
-        $this->Blood_Type_Father_id="";
-        $this->Religion_Father_id="";
-        $this->Address_Father="";
-        // +++++++++++++++++ Step 2 : Mother_INPUTS +++++++++++++++++
-        $this->Name_Mother_en = "" ;
-        $this->Name_Mother="";
-        $this->National_ID_Mother="";
-        $this->Passport_ID_Mother="";
-        $this->Phone_Mother="";
-        $this->Job_Mother_en = "";
-        $this->Job_Mother="";
-        $this->Passport_ID_Mother="";
-        $this->Nationality_Mother_id="";
-        $this->Blood_Type_Mother_id="";
-        $this->Religion_Mother_id="";
-        $this->Address_Mother="";
+        // Hide "parents table"
+        $this->show_table = false;
+        // Show "Edit Mode"
+        $this->updateMode = true;
+        // Get "Edited Parent" data
+        $My_Parent = My_Parent::where('id',$id)->first();
+        // ------- Update "Parent data" in Form With "New Data" -------
+        // assign edited "parent id" to "Parent_id" variable
+        $this->Parent_id = $id;
+        $this->Email = $My_Parent->email;
+        $this->Password = $My_Parent->password;
+        // ------- Father Info -------
+        $this->Name_Father = $My_Parent->getTranslation('Name_Father', 'ar');
+        $this->Name_Father_en = $My_Parent->getTranslation('Name_Father', 'en');
+        $this->Job_Father = $My_Parent->getTranslation('Job_Father', 'ar');
+        $this->Job_Father_en = $My_Parent->getTranslation('Job_Father', 'en');
+        $this->National_ID_Father =$My_Parent->National_ID_Father;
+        $this->Passport_ID_Father = $My_Parent->Passport_ID_Father;
+        $this->Phone_Father = $My_Parent->Phone_Father;
+        $this->Nationality_Father_id = $My_Parent->Nationality_Father_id;
+        $this->Blood_Type_Father_id = $My_Parent->Blood_Type_Father_id;
+        $this->Address_Father =$My_Parent->Address_Father;
+        $this->Religion_Father_id =$My_Parent->Religion_Father_id;
+        // ------- Mother Info -------
+        $this->Name_Mother = $My_Parent->getTranslation('Name_Mother', 'ar');
+        $this->Name_Mother_en = $My_Parent->getTranslation('Name_Father', 'en');
+        $this->Job_Mother = $My_Parent->getTranslation('Job_Mother', 'ar');;
+        $this->Job_Mother_en = $My_Parent->getTranslation('Job_Mother', 'en');
+        $this->National_ID_Mother =$My_Parent->National_ID_Mother;
+        $this->Passport_ID_Mother = $My_Parent->Passport_ID_Mother;
+        $this->Phone_Mother = $My_Parent->Phone_Mother;
+        $this->Nationality_Mother_id = $My_Parent->Nationality_Mother_id;
+        $this->Blood_Type_Mother_id = $My_Parent->Blood_Type_Mother_id;
+        $this->Address_Mother =$My_Parent->Address_Mother;
+        $this->Religion_Mother_id =$My_Parent->Religion_Mother_id;
     }
+    // +++++++++++++++ firstStepSubmit_edit() : Go To "Step 2" +++++++++++++++
+    public function firstStepSubmit_edit()
+    {
+        $this->updateMode = true;
+        $this->currentStep = 2 ;
+    }
+    // +++++++++++++++ secondSubmit_edit() : Go To "Step 3" +++++++++++++++
+    public function secondStepSubmit_edit()
+    {
+        $this->updateMode = true;
+        $this->currentStep = 3 ;
+    }
+    // +++++++++++++++ update method : submitForm_edit() +++++++++++++++
+    public function submitForm_edit()
+    {
+        // if "id" of "edited parent" is "not null"
+        if ($this->Parent_id)
+        {
+            $parent = My_Parent::find($this->Parent_id);
+            $parent->update([
+                // +++++++++++++++++ Step 1 : Father_INPUTS +++++++++++++++++
+                'Email'                 => $this->Email,
+                'Password'              => Hash::make($this->Password),
+                'Name_Father'           => ['en' => $this->Name_Father_en, 'ar' => $this->Name_Father],
+                'Passport_ID_Father'    => $this->Passport_ID_Father,
+                'National_ID_Father'    => $this->National_ID_Father,
+                'Phone_Father'          => $this->Phone_Father,
+                'Job_Father'            => ['en' => $this->Job_Father_en, 'ar' => $this->Job_Father],
+                'Blood_Type_Father_id'  => $this->Blood_Type_Father_id,
+                'Religion_Father_id'    => $this->Religion_Father_id,
+                'Address_Father'        => $this->Address_Father,
+                // +++++++++++++++++ Step 2 : Mother_INPUTS +++++++++++++++++
+                'Name_Mother'           => ['en' => $this->Name_Mother_en, 'ar' => $this->Name_Mother],
+                'National_ID_Mother'    => $this->National_ID_Mother,
+                'Passport_ID_Mother'    => $this->Passport_ID_Mother,
+                'Phone_Mother'          => $this->Phone_Mother,
+                'Job_Mother'            => ['en' => $this->Job_Mother_en, 'ar' => $this->Job_Mother],
+                'Passport_ID_Mother'    => $this->Passport_ID_Mother,
+                'Nationality_Mother_id' => $this->Nationality_Mother_id,
+                'Blood_Type_Mother_id'  => $this->Blood_Type_Mother_id,
+                'Religion_Mother_id'    => $this->Religion_Mother_id,
+                'Address_Mother'        => $this->Address_Mother
+                ]);
+                // -------------------------------- Attachments --------------------------------
+                // Insert "Photos" in "Parent_Attachment" table
+                if (!empty($this->photos))
+                {
+                    foreach ($this->photos as $photo)
+                    {
+                        // Store "photos" in "Storage Folder"
+                        $photo->storeAs($this->National_ID_Father,
+                                        $photo->getClientOriginalName(),
+                                        $disk = 'parent_attachments');
+                        // Store "photos" in "parent_attachments" Table in DB
+                        ParentAttachment::create([
+                            'file_name' => $photo->getClientOriginalName(),
+                            // Get the "latest parent_id" from "my_parents" table
+                            'parent_id' => My_Parent::latest()->first()->id,
+                        ]);
+                    }
+                }
+            }
+            return redirect()->to('/add_parent');
+        }
+        // +++++++++++++++ clearForm() : Clear inputFields +++++++++++++++
+        public function clearForm()
+        {
+            $this->Email = "";
+            $this->Password = "";
+            // Arabic "Name_Father" , English "Name_Father"
+            $this->Name_Father_en = "";
+            $this->Name_Father="";
+            $this->National_ID_Father="";
+            $this->Passport_ID_Father="";
+            $this->Phone_Father="";
+            // Arabic "Job_Father" , English "Job_Father"
+            $this->Job_Father_en = "" ;
+            $this->Job_Father = "";
+            $this->Passport_ID_Father="";
+            $this->Nationality_Father_id="";
+            $this->Blood_Type_Father_id="";
+            $this->Religion_Father_id="";
+            $this->Address_Father="";
+            // +++++++++++++++++ Step 2 : Mother_INPUTS +++++++++++++++++
+            $this->Name_Mother_en = "" ;
+            $this->Name_Mother="";
+            $this->National_ID_Mother="";
+            $this->Passport_ID_Mother="";
+            $this->Phone_Mother="";
+            $this->Job_Mother_en = "";
+            $this->Job_Mother="";
+            $this->Passport_ID_Mother="";
+            $this->Nationality_Mother_id="";
+            $this->Blood_Type_Mother_id="";
+            $this->Religion_Mother_id="";
+            $this->Address_Mother="";
+        }
+        // +++++++++++++++++++++ showformadd() : show "Add Form" +++++++++++++++++++++
+        // When clicking on "add_parent" button
+        public function showformadd()
+        {
+            $this->show_table = false;
+        }
+        // ++++++++++++++++++++++ delete() : delete parent ++++++++++++++++++++++
+        public function delete($id)
+        {
+            // ++++++++++++ 1- Delete "Parents" From " my__parents" Table in "DB" ++++++++++++
+            $parent = My_Parent::where('id', $id)->first();
+            $parent->delete();
+            // ++++++++++++ 2- Delete "Attachments" From "parent_attachments" Table in "DB" ++++++++++++
+            ParentAttachment::where('parent_id', $id)->delete();
+            // ++++++++++++ 3- Delete "Attachments" From "Public Folder" ++++++++++++++++
+            // Delete "All files" inside "parent_attachments/.$parent->National_ID_Father" Folder
+            Storage::deleteDirectory('parent_attachments/'.$parent->National_ID_Father);
+            // Show Delete Alert
+            return redirect()->to('/add_parent')->with('record_deleted',trans('messages.delete'));
+        }
 }

@@ -27,9 +27,8 @@ class CreateForeignKeys extends Migration
         });
         // ------------------------------------------- parent_attachments Relationships -------------------------------------------
         Schema::table('parent_attachments', function(Blueprint $table) {
-            // ================================== Parent_Attachments Relationships ==================================
             // Relationship Between : "my_parents" And "Parent_Attachments" Table Using Foreign_key="parent_id"
-            $table->foreign('parent_id')->references('id')->on('my__parents');
+            $table->foreign('parent_id')->references('id')->on('my__parents')->onDelete('cascade')->onUpdate('cascade');
         });
     }
     /* +++++++++++++++++++++++ down() +++++++++++++++++++++++ */

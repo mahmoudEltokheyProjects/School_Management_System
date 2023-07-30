@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Classrooms\ClassroomController;
 use App\Http\Controllers\Grades\GradeController;
+use App\Http\Controllers\Teacher\TeacherController;
 use App\Models\Classroom;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +55,10 @@ Route::group(
         });
         // +++++++++++++++++++ Parents +++++++++++++++++++
         Route::view('add_parent', 'livewire.show-form');
+        // +++++++++++++++++++ Teachers +++++++++++++++++++
+        Route::group(['namespace'=>'Teacher'],function(){
+            Route::resource('Teacher', 'TeacherController');
+        });
     }
 );
 

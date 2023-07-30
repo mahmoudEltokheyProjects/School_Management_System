@@ -125,9 +125,18 @@
                 {{trans('Parent_trans.Back')}}
             </button>
             {{-- +++++++++++++++++++ Next Button +++++++++++++++++++ --}}
-            <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="button"
-                    wire:click="secondStepSubmit">{{trans('Parent_trans.Next')}}</button>
+            {{-- if "Update Mother" --}}
+            @if ($updateMode == true)
+                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" wire:click="secondStepSubmit_edit"
+                        type="button">{{trans('Parent_trans.Next')}}
+                </button>
+            {{-- if "insert new Mother" --}}
+            @else
+                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" wire:click="secondStepSubmit"
+                        type="button">{{trans('Parent_trans.Next')}}</button>
+            @endif
         </div>
     </div>
 </div>
+
 

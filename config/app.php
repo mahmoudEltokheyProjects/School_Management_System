@@ -133,12 +133,13 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
-
     'providers' => [
-
         /*
          * Laravel Framework Service Providers...
          */
+        // ++++++++++++++++++ "RepoServiceProvider" +++++++++++++++++
+        App\Providers\RepoServiceProvider::class,
+
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -176,7 +177,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
     ],
 
     /*

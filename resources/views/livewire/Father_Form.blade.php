@@ -17,7 +17,7 @@
                     {{-- Password inputField --}}
                     <div class="col">
                         <label for="title">{{trans('Parent_trans.Password')}}</label>
-                        <input type="password" wire:model="Password" class="form-control" >
+                        <input type="password" wire:model="Password" class="form-control"  >
                         @error('Password')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -147,11 +147,19 @@
                     @enderror
                 </div>
                 {{-- ================================ Row 6 ================================ --}}
-                {{-- ++++++++++++++++++++++++++ "First Next" Button ++++++++++++++++++++++++++ --}}
-                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" wire:click="firstStepSubmit"
-                        type="button">{{trans('Parent_trans.Next')}}
+                {{-- +++++++++++++++ "First Next" Button +++++++++++++++ --}}
+                {{-- if "update Father" --}}
+                @if($updateMode)
+                    <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" wire:click="firstStepSubmit_edit"
+                            type="button">{{trans('Parent_trans.Next')}}
+                    </button>
                 </button>
-
+                {{-- if "insert new Father" --}}
+                @else
+                    <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" wire:click="firstStepSubmit"
+                            type="button">{{trans('Parent_trans.Next')}}
+                    </button>
+                @endif
             </div>
         </div>
     </div>

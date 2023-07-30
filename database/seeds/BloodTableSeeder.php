@@ -10,7 +10,7 @@ class BloodTableSeeder extends Seeder
     public function run()
     {
         // Clear "bloods table" when Execute "BloodTableSeeder" : Delete "All Bloods"
-        DB::table('type__bloods')->truncate();
+        DB::table('type__bloods')->delete();
         // All "bloods"
         $bgs = ['O-','O+','A+','A-','B+','B-','AB+','AB-'];
 

@@ -18,6 +18,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{-- ++++++++++++++++++++++++ Login_And_Register Form Style ++++++++++++++++++++++++ --}}
+    <link href="{{ asset('assets/css/register_login_css/login.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/register_login_css/register.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/register_login_css/vendors/font-awesome.min.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
@@ -76,5 +81,9 @@
             @yield('content')
         </main>
     </div>
+
+
+
+
 </body>
 </html>
