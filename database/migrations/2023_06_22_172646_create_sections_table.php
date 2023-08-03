@@ -12,7 +12,7 @@ class CreateSectionsTable extends Migration
         Schema::create('sections', function (Blueprint $table)
         {
             // section id
-            $table->increments('id');
+            $table->id();
             // section Name
             $table->string('Name_Section');
             // "Section" can be "active" or "disabled" , "class1_1 , class1_2 , class1_3 , ... , class1_6)"

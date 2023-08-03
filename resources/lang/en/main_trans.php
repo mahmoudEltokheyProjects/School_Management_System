@@ -22,19 +22,19 @@ return [
 
 
 
-    'List_sections'=>'List Sections',
+    'List_sections'=>'Sections List',
     'students'=>'Students',
     'add_student'=>'Add student',
-    'list_students'=>'list Students',
+    'list_students'=>'Students List',
     'Students_Promotions'=>'Students Promotions',
     'information_student'=>'Information Students',
     'Students_upgrade'=>'Students Upgrade',
     'Graduate_students'=>'Graduate Students',
     'Teachers'=>'Teachers',
-    'List_Teachers' => 'List Teachers',
+    'List_Teachers' => 'Teachers List',
     'Parents'=>'Parents',
     'Add_Parent'=>'Add Parent',
-    'List_Parents'=>'List Parents',
+    'List_Parents'=>'Parents List',
     'Accounts'=>'Accounts',
     'Attendance'=>'Attendance',
     'Exams'=>'Exams',
@@ -43,5 +43,5 @@ return [
     'Settings'=>'Settings',
     'Users'=>'Users',
     'Copyright' => 'Copyright',
-    'Name_Programer' => 'SamirGamal MoraSoft All Rights Reserved'
+    'Name_Programer' => 'MahmoudEltokhey EltokheySoft All Rights Reserved'
 ];

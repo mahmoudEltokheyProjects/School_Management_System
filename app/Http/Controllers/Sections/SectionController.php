@@ -8,6 +8,7 @@ use App\Http\Requests\StoreSectionsRequest;
 use App\Models\Classroom;
 use App\Models\Grade;
 use App\Models\Section ;
+use App\Models\Teacher;
 
 class SectionController extends Controller
 {
@@ -17,9 +18,10 @@ class SectionController extends Controller
         // Get "All grades" with "sections" : get "each grade" with "its sections"
         $Grades = Grade::with(['Sections'])->get();
         // Get "All grades"
-        // return $Grades;
         $list_Grades = Grade::all();
-        return view('pages.Sections.Sections',compact('Grades','list_Grades'));
+        // Get "All teachers"
+        $teachers = Teacher::all();
+        return view('pages.Sections.Sections',compact('Grades','list_Grades','teachers'));
     }
     // ++++++++++++++++++++ getclasses($id) ++++++++++++++++++++
     public function getclasses($id)
@@ -37,15 +39,16 @@ class SectionController extends Controller
     {
         try
         {
-            $validated = $request->validated();
             $Sections = new Section();
             $Sections->Name_Section = ['ar' => $request->Name_Section_Ar, 'en' => $request->Name_Section_En];
             $Sections->Grade_id = $request->Grade_id;
             $Sections->Class_id = $request->Class_id;
             $Sections->Status = 1;
             $Sections->save();
-            // $Sections->teachers()->attach($request->teacher_id);
-            // toastr()->success(trans('messages.success'));
+            // Store "Selected Teachers" in "Sections" Table
+            // attach( $id , pivot_table_name ) method : to store data in "teacher_section" table
+            // Store "section_id" And "teacher_id" in "teacher_section" table
+            $Sections->teachers()->attach($request->teacher_id);
             return redirect()->route('Sections.index')->with('record_added',trans('messages.success'));
         }
         catch (\Exception $e)
@@ -91,14 +94,16 @@ class SectionController extends Controller
                 $Sections->Status = 2;
             }
             // ++++++++++++++++++++ Teacher : update pivot Table ++++++++++++++++++++
-            // if (isset($request->teacher_id))
-            // {
-            //     $Sections->teachers()->sync($request->teacher_id);
-            // }
-            // else
-            // {
-            //     $Sections->teachers()->sync(array());
-            // }
+            if (isset($request->teacher_id))
+            {
+                // if "teachers" are "Edited" then take "new teachers" and store them in "teacher_section" table without repeating
+                $Sections->teachers()->sync($request->teacher_id);
+            }
+            else
+            {
+                // if "teachers" are "Not Edited" then "Don't Update Teachers" in "teacher_section" table
+                $Sections->teachers()->sync(array());
+            }
             $Sections->save();
             return redirect()->back()->with('record_updated',trans('messages.update'));
         }

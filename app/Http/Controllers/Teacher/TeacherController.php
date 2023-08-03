@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Teacher;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTeacherRequest;
+use App\Models\Teacher;
 use App\Repository\TeacherRepositoryInterface;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
@@ -18,31 +21,38 @@ class TeacherController extends Controller
     /* ++++++++++++++++++ index() ++++++++++++++++++ */
     public function index()
     {
-        $this->repo->getAllTeachers();
+        $Teachers = $this->repo->getAllTeachers();
+        return view('pages.Teachers.Teachers',compact('Teachers'));
     }
-    /* ++++++++++++++++++ getAllSpecializations() ++++++++++++++++++ */
-    public function getAllGenders()
-    {
-        $this->repo->getAllGenders();
-    }
-    /* ++++++++++++++++++ getAllSpecializations() ++++++++++++++++++ */
-    public function getAllSpecializations()
-    {
-        $this->repo->getAllSpecializations();
-    }
-    // ++++++++++++++++++ store() ++++++++++++++++++ */
+   /* ++++++++++++++++++ getAllSpecializations() ++++++++++++++++++ */
+   public function getAllGenders()
+   {
+       $this->repo->getAllGenders();
+   }
+   /* ++++++++++++++++++ getAllSpecializations() ++++++++++++++++++ */
+   public function getAllSpecializations()
+   {
+       $this->repo->getAllSpecializations();
+   }
+   // ++++++++++++++++++ store() ++++++++++++++++++ */
     public function store(StoreTeacherRequest $request)
     {
-        $this->repo->storeTeachers($request);
+        return $this->repo->StoreTeachers($request);
     }
-
+    /* ++++++++++++++++++++++ create() : create New Teacher ++++++++++++++++++++++ */
+    public function create()
+    {
+        $specializations  = $this->repo->getAllSpecializations() ;
+        $genders          = $this->repo->getAllGenders();
+        return view('pages.Teachers.create',compact('specializations','genders'));
+    }
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Teacher $teacher)
     {
         //
     }
@@ -50,10 +60,10 @@ class TeacherController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Teacher $teacher)
     {
         //
     }
@@ -62,10 +72,10 @@ class TeacherController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Teacher $teacher)
     {
         //
     }
@@ -73,10 +83,10 @@ class TeacherController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Teacher $teacher)
     {
         //
     }

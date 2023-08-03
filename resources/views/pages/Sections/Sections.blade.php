@@ -61,8 +61,7 @@
                                                                 <thead>
                                                                 <tr class="text-dark">
                                                                     <th>#</th>
-                                                                    <th>{{ trans('Sections_trans.Name_Section') }}
-                                                                    </th>
+                                                                    <th>{{ trans('Sections_trans.Name_Section') }}</th>
                                                                     <th>{{ trans('Sections_trans.Name_Class') }}</th>
                                                                     <th>{{ trans('Sections_trans.Status') }}</th>
                                                                     <th>{{ trans('Sections_trans.Processes') }}</th>
@@ -86,7 +85,6 @@
                                                                                     <label
                                                                                         class="badge badge-danger">{{ trans('Sections_trans.Status_Section_No') }}</label>
                                                                                 @endif
-
                                                                             </td>
                                                                             <td>
                                                                                 {{-- //////// Edit Button //////// --}}
@@ -189,7 +187,7 @@
                                                                                                 </select>
                                                                                             </div>
                                                                                             <br>
-                                                                                            {{-- /////////////////////// Status Checkbox /////////////////////// --}}
+                                                                                            {{-- /////////////////////// Checkbox : Status /////////////////////// --}}
                                                                                             <div class="col">
                                                                                                 <div class="form-check">
                                                                                                     {{-- "status" is "Active" --}}
@@ -216,13 +214,14 @@
                                                                                                     <div class="col">
                                                                                                         <label for="inputName" class="control-label">{{ trans('Sections_trans.Name_Teacher') }}</label>
                                                                                                         <select multiple name="teacher_id[]" class="form-control" id="exampleFormControlSelect2">
-                                                                                                            {{-- @foreach($list_Sections->teachers as $teacher)
+                                                                                                            {{-- Appear "All Teachers" of "Edited Section" --}}
+                                                                                                            @foreach($list_Sections->teachers as $teacher)
                                                                                                                 <option selected value="{{$teacher['id']}}">{{$teacher['Name']}}</option>
                                                                                                             @endforeach
-
+                                                                                                            {{-- Appear "All Teachers" --}}
                                                                                                             @foreach($teachers as $teacher)
                                                                                                                 <option value="{{$teacher->id}}">{{$teacher->Name}}</option>
-                                                                                                            @endforeach --}}
+                                                                                                            @endforeach
                                                                                                         </select>
                                                                                                     </div>
                                                                                                 </div>
@@ -307,7 +306,7 @@
                                     <h5 class="modal-title" style="font-family: 'Cairo', sans-serif;"
                                         id="exampleModalLabel">
                                         {{ trans('Sections_trans.add_section') }}</h5>
-                                    {{-- //////// "x" close button //////// --}}
+                                    {{-- //////// "close" button //////// --}}
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -347,7 +346,7 @@
                                             </select>
                                         </div>
                                         <br>
-                                        {{-- ++++++++++++++++ Sections Selectbox ++++++++++++++++ --}}
+                                        {{-- ++++++++++++++++ Selectbox : Sections ++++++++++++++++ --}}
                                         <div class="col">
                                             <label for="inputName"
                                                    class="control-label">{{ trans('Sections_trans.Name_Class') }}</label>
@@ -355,13 +354,13 @@
 
                                             </select>
                                         </div><br>
-
+                                        {{-- +++++++++++++++++++++ Selectbox : All Teachers +++++++++++++++++++++ --}}
                                         <div class="col">
                                             <label for="inputName" class="control-label">{{ trans('Sections_trans.Name_Teacher') }}</label>
                                             <select multiple name="teacher_id[]" class="form-control" id="exampleFormControlSelect2">
-                                                {{-- @foreach($teachers as $teacher)
+                                                @foreach($teachers as $teacher)
                                                     <option value="{{$teacher->id}}">{{$teacher->Name}}</option>
-                                                @endforeach --}}
+                                                @endforeach
                                             </select>
                                         </div>
 
@@ -389,14 +388,14 @@
     {{-- ++++++++++++++++++++ Classrooms Selectbox ++++++++++++++++++++ --}}
     <script>
         $(document).ready(function () {
+            // ++++++++++++ getclasses() : Get "all classes" According to selected "grade" selectbox ++++++++++++
             // on change on "selectbox with name='Grade_id' " , Execute The following function
             $('select[name="Grade_id"]').on('change', function () {
-                // Get "grade_id" of "selected option" from "selectbox"
+                // Get "grade_id" of "selected option" from "selectbox" ==> ["value" of "selected option" == "grade_id"]
                 var Grade_id = $(this).val();
-                // if "Grade_id" of "selected option" has value , Go to ""
+                // if "Grade_id" of "selected option" has value , Go to url = "/classes/Grade_id"
                 if (Grade_id)
                 {
-
                     $.ajax({
                         url: "/classes/" + Grade_id,
                         type: "GET",
@@ -405,6 +404,7 @@
                         {
                             console.log(data);
                             $('select[name="Class_id"]').empty();
+                            // Put "All classes" on "Class Selectbox"
                             $.each(data, function (key, value) {
                                 $('select[name="Class_id"]').append('<option value="' + key + '">' + value + '</option>');
                             });
@@ -417,6 +417,5 @@
                 }
             });
         });
-
     </script>
 @endsection

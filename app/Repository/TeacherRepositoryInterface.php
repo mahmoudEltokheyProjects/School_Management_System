@@ -2,7 +2,6 @@
 namespace App\Repository;
 
 use App\Http\Requests\StoreTeacherRequest;
-use App\Http\Requests\TeacherValidationRequest;
 
 interface TeacherRepositoryInterface
 {
@@ -13,6 +12,6 @@ interface TeacherRepositoryInterface
     // Get "All Genders"
     public function getAllGenders();
     // Store "Teachers"
-    public function storeTeachers(StoreTeacherRequest $request);
+    public function StoreTeachers($request);
 }
 ?>

@@ -36,7 +36,7 @@
  Main content -->
         <!-- main-content -->
         <div class="content-wrapper">
-            
+
             <h3> @yield('page-header') </h3>
 
             @yield('content')

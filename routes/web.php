@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\Classrooms\ClassroomController;
-use App\Http\Controllers\Grades\GradeController;
-use App\Http\Controllers\Teacher\TeacherController;
 use App\Models\Classroom;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Grades\GradeController;
+use App\Http\Controllers\Teacher\TeacherController;
+use App\Http\Controllers\Students\StudentController;
+use App\Http\Controllers\Classrooms\ClassroomController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -50,7 +51,7 @@ Route::group(
         // +++++++++++++++++++ Sections +++++++++++++++++++
         Route::group(['namespace' => 'Sections'],function(){
             Route::resource('Sections', 'SectionController');
-            // Get "classrooms" of "selected option"
+            // Get "classrooms" of "Selected Grade"
             Route::get('/classes/{id}', 'SectionController@getclasses');
         });
         // +++++++++++++++++++ Parents +++++++++++++++++++
@@ -58,6 +59,14 @@ Route::group(
         // +++++++++++++++++++ Teachers +++++++++++++++++++
         Route::group(['namespace'=>'Teacher'],function(){
             Route::resource('Teacher', 'TeacherController');
+        });
+        // +++++++++++++++++++ Students +++++++++++++++++++
+        Route::group(['namespace'=>'Student'],function(){
+            Route::resource('Student', 'StudentController');
+            // Get "classrooms" of "Selected Grade"
+            Route::get('/classes/{id}', 'StudentController@Get_classrooms');
+            // Get "sections" of "Selected Grade"
+            Route::get('/sections/{id}', 'StudentController@Get_Sections');
         });
     }
 );

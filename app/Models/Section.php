@@ -14,12 +14,21 @@ class Section extends Model
     public $timestamps = true ;
     protected $guarded = [];
     // ++++++++++++++++++++++++++++++ Relationships ++++++++++++++++++++++++++++++
-    // 1- My_class() : "1:M" Relationship
+    // =========== "1:M" Relationship : My_class() ===========
     // علاقة بين الاقسام والصفوف لجلب اسم الصف في جدول الاقسام
-
+    // فصل [اولي اول] بينتمي فقط [للصف الاول الابتدائي]
     public function My_classs()
     {
         return $this->belongsTo('App\Models\Classroom', 'Class_id');
     }
+    // =========== "M:M" Relationship : Sections() ===========
+    // "one teachers" can teach to "many sections" , "one section" can be learn from "many teachers"
+    // علاقة المعلمين مع الاقسام
+    public function Teachers()
+    {
+        return $this->belongsToMany('App\Models\Teacher','teacher_section');
+    }
+
+
 
 }

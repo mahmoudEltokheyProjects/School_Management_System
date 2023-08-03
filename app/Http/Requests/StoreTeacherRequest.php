@@ -13,20 +13,29 @@ class StoreTeacherRequest extends FormRequest
     public function rules()
     {
         return [
-            'Email' => 'required|unique:teachers' ,
-            'Password' => 'required|unique:password|min:6' ,
-            'Name' => 'string|max:20' ,
-
-
+            'Email' => 'required|unique:teachers,Email,'.$this->id,
+            'Password' => 'required',
+            'Name_ar' => 'required',
+            'Name_en' => 'required',
+            'Specialization_id' => 'required',
+            'Gender_id' => 'required',
+            'Joining_Date' => 'required|date|date_format:Y-m-d',
+            'Address' => 'required',
         ];
     }
     public function messages()
     {
-        return[
-            'Email.require' => 'Email inputfield is required',
-            'Email.unique'  => 'Email inputfield must be unique' ,
-            'Password.require' => 'Password inputfield is required' ,
-            'Password.mix' => 'Password characters must be at least 6 characters',
+        return [
+            'Email.required' => trans('validation.required'),
+            'Email.unique' => trans('validation.unique'),
+            'Password.required' => trans('validation.required'),
+            'Name_ar.required' => trans('validation.required'),
+            'Name_en.required' => trans('validation.required'),
+            'Specialization_id.required' => trans('validation.required'),
+            'Gender_id.required' => trans('validation.required'),
+            'Joining_Date.required' => trans('validation.required'),
+            'Address.required' => trans('validation.required'),
         ];
     }
+
 }
