@@ -19,7 +19,6 @@ class NationalitiesTableSeeder extends Seeder
                 'ar'=> 'أفغانستاني'
             ],
             [
-
                 'en'=> 'Albanian',
                 'ar'=> 'ألباني'
             ],

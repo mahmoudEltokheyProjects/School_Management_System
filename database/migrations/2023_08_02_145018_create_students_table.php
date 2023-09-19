@@ -40,7 +40,7 @@ class CreateStudentsTable extends Migration
             // Foreign Key : parent_id
             $table->bigInteger('parent_id')->unsigned();
             $table->foreign('parent_id')->references('id')->on('my__parents')->onDelete('cascade');
-
+            // academic_year column
             $table->string('academic_year');
             // "created_at" , "updated_at" Column
             $table->timestamps();

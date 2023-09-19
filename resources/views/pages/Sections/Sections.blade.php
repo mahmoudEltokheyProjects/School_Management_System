@@ -1,16 +1,95 @@
 @extends('layouts.master')
 @section('css')
 
-@section('title')
-    {{ trans('Sections_trans.title_page') }}
-@stop
+    @section('title')
+        {{ trans('Sections_trans.title_page') }}
+    @stop
+    {{-- +++++++++++++++ Style : checkboxes and labels inside selectbox +++++++++++++++ --}}
+    <style>
+        /* selectbox and dropdown style in page */
+        .bootstrap-select
+        {
+            background-color: #84ba3f !important;
+            color: #fff  !important;
+            outline: none !important;
+        }
+        .dropdown-toggle
+        {
+            background-color: #84ba3f!important;
+            border-color: #84ba3f !important;
+            color: #fff  !important;
+            outline: none !important;
+            padding: 0 !important;
+            padding-left: 10px !important;
+            padding-right: 4px !important;
+        }
+        /* selectbox of show/hide columns */
+
+            .selectBox {
+            position: relative;
+            }
+
+            /* selectbox style */
+            .selectBox select
+            {
+                width: 100%;
+                padding: 0 !important;
+                padding-left: 4px;
+                padding-right: 4px;
+                color: #fff;
+                border: 1px solid #84ba3f;
+                background-color: #84ba3f;
+                height: 39px !important;
+            }
+
+            .overSelect {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            }
+
+            #checkboxes {
+            display: none;
+            border: 1px #dadada solid;
+            height: 125px;
+            overflow: auto;
+            padding-top: 10px;
+            /* text-align: end;  */
+            }
+
+            #checkboxes label {
+            display: block;
+            padding: 5px;
+
+            }
+
+            #checkboxes label:hover {
+            background-color: #ddd;
+            }
+            #checkboxes label span
+            {
+                font-weight: normal;
+            }
+    </style>
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
-@section('PageTitle')
-    {{ trans('Sections_trans.title_page') }}
-@stop
-<!-- breadcrumb -->
+    <div class="page-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mb-0"> {{ __('Sections_trans.breadcrumbs_title') }}</h4>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
+                    <li class="breadcrumb-item"><a href="#" class="default-color">{{ __('main_trans.Dashboard') }}</a></li>
+                    <li class="breadcrumb-item active">{{ trans('Sections_trans.List_Sections') }}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb -->
 @endsection
 
 @section('content')
@@ -21,8 +100,47 @@
                 {{-- *********** "Add Section" Button *********** --}}
                 <!-- اضافة قسم جديد -->
                 <div class="card-body">
-                    <a class="button x-small" href="#" data-toggle="modal" data-target="#exampleModal">
-                        {{ trans('Sections_trans.add_section') }}</a>
+                    <div class="row">
+                        {{-- ====================== add_section ====================== --}}
+                        <div class="col-md-2">
+                            <a class="button x-small col-md-12" href="#" data-toggle="modal" data-target="#exampleModal">
+                                {{ trans('Sections_trans.add_section') }}
+                            </a>
+                        </div>
+                        {{-- ====================== Show/Hide Columns ====================== --}}
+                        <div class="multiselect col-md-3">
+                            <div class="selectBox" onclick="showCheckboxes()">
+                                <select class="form-control form-control-lg">
+                                    <option> @lang('main_trans.show_hide_columns') </option>
+                                </select>
+                                <div class="overSelect"></div>
+                            </div>
+
+                            <div id="checkboxes">
+                                {{-- +++++++++++++++++ checkbox1 : Name_class +++++++++++++++++ --}}
+                                <label for="col1_id">
+                                    <input type="checkbox" id="col1_id" name="col1" checked="checked" />
+                                    <span>@lang('Sections_trans.Name_Section')</span> &nbsp;
+                                </label>
+                                {{-- +++++++++++++++++ checkbox2 : Name_Grade +++++++++++++++++ --}}
+                                <label for="col2_id">
+                                    <input type="checkbox" id="col2_id" name="col2" checked="checked" />
+                                    <span>@lang('Sections_trans.Name_Class')</span>
+                                </label>
+                                {{-- +++++++++++++++++ checkbox3 : Status +++++++++++++++++ --}}
+                                <label for="col3_id">
+                                    <input type="checkbox" id="col3_id" name="col3" checked="checked" />
+                                    <span>@lang('Sections_trans.Status')</span>
+                                </label>
+                                {{-- +++++++++++++++++ checkbox4 : Processes +++++++++++++++++ --}}
+                                <label for="col4_id">
+                                    <input type="checkbox" id="col4_id" name="col4" checked="checked" />
+                                    <span>@lang('Sections_trans.Processes')</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 {{-- *********** Show All Validation Errors *********** --}}
                 @if ($errors->any())
@@ -57,14 +175,15 @@
                                                         </div>
                                                         {{-- +++++++++++++++++++++ Show Table +++++++++++++++++++++ --}}
                                                         <div class="table-responsive mt-15">
+
                                                             <table class="table center-aligned-table mb-0">
                                                                 <thead>
                                                                 <tr class="text-dark">
                                                                     <th>#</th>
-                                                                    <th>{{ trans('Sections_trans.Name_Section') }}</th>
-                                                                    <th>{{ trans('Sections_trans.Name_Class') }}</th>
-                                                                    <th>{{ trans('Sections_trans.Status') }}</th>
-                                                                    <th>{{ trans('Sections_trans.Processes') }}</th>
+                                                                    <th class="col1">{{ trans('Sections_trans.Name_Section') }}</th>
+                                                                    <th class="col2">{{ trans('Sections_trans.Name_Class') }}</th>
+                                                                    <th class="col3">{{ trans('Sections_trans.Status') }}</th>
+                                                                    <th class="col4">{{ trans('Sections_trans.Processes') }}</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -73,11 +192,11 @@
                                                                         <tr>
                                                                             <?php $i++; ?>
                                                                             <td>{{ $i }}</td>
-                                                                            <td>{{ $list_Sections->Name_Section }}</td>
-                                                                            <td>{{ $list_Sections->My_classs->Name_Class }}
+                                                                            <td class="col1">{{ $list_Sections->Name_Section }}</td>
+                                                                            <td class="col2">{{ $list_Sections->My_classs->Name_Class }}
                                                                             </td>
                                                                             {{-- "Status" column --}}
-                                                                            <td>
+                                                                            <td class="col3">
                                                                                 @if ($list_Sections->Status === 1)
                                                                                     <label
                                                                                         class="badge badge-success">{{ trans('Sections_trans.Status_Section_AC') }}</label>
@@ -86,7 +205,7 @@
                                                                                         class="badge badge-danger">{{ trans('Sections_trans.Status_Section_No') }}</label>
                                                                                 @endif
                                                                             </td>
-                                                                            <td>
+                                                                            <td class="col4">
                                                                                 {{-- //////// Edit Button //////// --}}
                                                                                 <a  href="#" class="btn btn-outline-info btn-sm" data-toggle="modal"
                                                                                     data-target="#edit{{ $list_Sections->id }}">
@@ -388,6 +507,7 @@
     {{-- ++++++++++++++++++++ Classrooms Selectbox ++++++++++++++++++++ --}}
     <script>
         $(document).ready(function () {
+            // ====================================== start ==========================================
             // ++++++++++++ getclasses() : Get "all classes" According to selected "grade" selectbox ++++++++++++
             // on change on "selectbox with name='Grade_id' " , Execute The following function
             $('select[name="Grade_id"]').on('change', function () {
@@ -417,5 +537,31 @@
                 }
             });
         });
+        // ====================================== end ==========================================
+        // ===================================== start ============================================
+        // +++++++ Checkboxs and label inside selectbox +++++++
+        $("input:checkbox:not(:checked)").each(function() {
+                var column = "table ." + $(this).attr("name");
+                $(column).hide();
+            });
+
+            $("input:checkbox").click(function(){
+                var column = "table ." + $(this).attr("name");
+                $(column).toggle();
+            });
+            // +++++++++++++++++ Checkboxs and label inside selectbox : showCheckboxes() method ++++++++++++++
+            var expanded = false;
+            function showCheckboxes()
+            {
+                var checkboxes = document.getElementById("checkboxes");
+                if (!expanded) {
+                    checkboxes.style.display = "block";
+                    expanded = true;
+                } else {
+                    checkboxes.style.display = "none";
+                    expanded = false;
+                }
+            }
+        // ===================================== end ============================================
     </script>
 @endsection

@@ -17,10 +17,10 @@ class SectionController extends Controller
     {
         // Get "All grades" with "sections" : get "each grade" with "its sections"
         $Grades = Grade::with(['Sections'])->get();
-        // Get "All grades"
-        $list_Grades = Grade::all();
-        // Get "All teachers"
-        $teachers = Teacher::all();
+        // Get "All grades"     , getGrades() ==> helper function
+        $list_Grades = getGrades();
+        // Get "All teachers"   , getTeachers() ==> helper function
+        $teachers = getTeachers();
         return view('pages.Sections.Sections',compact('Grades','list_Grades','teachers'));
     }
     // ++++++++++++++++++++ getclasses($id) ++++++++++++++++++++
@@ -71,8 +71,6 @@ class SectionController extends Controller
     {
         try
         {
-            // return $request;
-            $validated = $request->validated();
             // Get "Upated Section" data
             $Sections = Section::findOrFail($request->id);
             // +++++++++++++ update ++++++++++++++

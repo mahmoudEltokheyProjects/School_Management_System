@@ -13,7 +13,8 @@ class GradeController extends Controller
     // +++++++++++++++++++++++ index() method +++++++++++++++++++++++
     public function index()
     {
-        $Grades = Grade::all();
+        // getGrades() ==> helper method
+        $Grades = getGrades();
         return view('pages.Grades.Grades',compact('Grades'));
     }
     // +++++++++++++++++++++++ create() method +++++++++++++++++++++++

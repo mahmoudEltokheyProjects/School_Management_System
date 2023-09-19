@@ -13,10 +13,10 @@ class ClassroomController extends Controller
     // +++++++++++++++++++++++ index() method +++++++++++++++++++++++
     public function index()
     {
-        // Get "All Grades"
-        $Grades = Grade::all();
-        // Get "All Classrooms"
-        $My_Classes = Classroom::all();
+        // Get "All Grades" , getGrades() ==> helper function
+        $Grades = getGrades();
+        // Get "All Classrooms" , getClassrooms() ==> helper function
+        $My_Classes = getClassrooms();
         return view('pages.Classrooms.My_Classes',compact('My_Classes','Grades'));
     }
 
@@ -107,8 +107,8 @@ class ClassroomController extends Controller
     // +++++++++++++++++++++++++++++++++ Search Selecbox +++++++++++++++++++++++++++++++++
     public function Filter_Classes(Request $request)
     {
-        // Get "All Grades"
-        $Grades = Grade::all();
+        // Get "All Grades" ,  getGrades() ==> helper function
+        $Grades = getGrades();
         // Get "All classrooms" Related to "selected Grade"
         $Search = Classroom::select('*')->where('Grade_id', $request->Grade_id)->get();
         // Go To "views/pages/My_Classes/My_Classes.blade.php" and Take "Grades" and "Search" but Rename "$Search" To "Details"

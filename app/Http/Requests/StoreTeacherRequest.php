@@ -37,5 +37,4 @@ class StoreTeacherRequest extends FormRequest
             'Address.required' => trans('validation.required'),
         ];
     }
-
 }

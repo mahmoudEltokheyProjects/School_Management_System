@@ -72,7 +72,7 @@
                         </a>
                         <ul id="students-menu" class="collapse" data-parent="#sidebarnav">
                             <li> <a href="{{ route('Student.create') }}">{{ trans('Student_trans.add_student') }}</a> </li>
-                            <li> <a href="calendar-list.html">List Calendar</a> </li>
+                            <li> <a href="{{ route('Student.index') }}">{{ trans('Student_trans.List_student') }}</a> </li>
                         </ul>
                     </li>
                     <!-- +++++++++++++++++++++++++++ Teachers +++++++++++++++++++++++++++ -->

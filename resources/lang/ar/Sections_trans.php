@@ -2,8 +2,9 @@
 
 return [
 
-    'title_page' => 'الاقسام',
-    'List_Grade' => 'List_Grade',
+    'title_page' => 'الفصول',
+    'List_Sections' => 'قائمة الفصول الدراسية',
+    'breadcrumbs_title' => 'عرض الفصول الدراسية' ,
     'add_section' => 'اضافة قسم',
     'edit_Section'=> 'تعديل قسم',
     'delete_Section'=> 'حذف قسم',

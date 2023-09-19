@@ -3,7 +3,8 @@
 return [
 
     'title_page' => 'sections',
-    'List_Grade' => 'List_Grade',
+    "breadcrumbs_title" => "Show Sections" ,
+    'List_Sections' => 'Section List',
     'add_section' => 'Add Section ',
     'edit_Section'=> 'Edit Section',
     'delete_Section'=> 'Delete Section',

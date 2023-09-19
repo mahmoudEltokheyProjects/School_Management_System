@@ -43,5 +43,7 @@ return [
     'Settings'=>'Settings',
     'Users'=>'Users',
     'Copyright' => 'Copyright',
-    'Name_Programer' => 'MahmoudEltokhey EltokheySoft All Rights Reserved'
+    'Name_Programer' => 'MahmoudEltokhey EltokheySoft All Rights Reserved',
+    'show_hide_columns' => 'Show/Hide Columns'
+
 ];

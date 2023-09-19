@@ -6,7 +6,7 @@ return [
     'Programname'    => 'برنامج إدارة المدارس ' ,
     'Grades'         => 'المراحل الدراسية'      ,
     'Grades_List'    => 'قائمة المراحل الدراسية'   ,
-    'List_sections'  => 'قائمة الفصول الدراسية'   ,
+    'List_classes'  => 'قائمة الفصول الدراسية'   ,
     'Classes'        => 'الصفوف'                    ,
     'Sections'       => 'الفصول'             ,
     'Students'       => 'الطلاب'              ,
@@ -23,7 +23,7 @@ return [
 
 
     'sections'=>'الاقسام',
-    'List_sections'=>'قائمة الاقسام الدراسية',
+    'List_sections'=>'قائمة الفصول الدراسية',
     'students'=>'الطلاب',
     'Student_information'=>'معلومات الطلاب',
     'add_student'=>'اضافة طالب جديد',
@@ -47,5 +47,7 @@ return [
     'Settings'=>'الاعدادات',
     'Users'=>'المستخدمين',
     'Copyright' => 'جميع الحقوق محفوظة ',
-    'Name_Programer' => 'محمود الطوخي  طوخي سوفت'
+    'Name_Programer' => 'محمود الطوخي  طوخي سوفت' ,
+    'show_hide_columns' => 'اخفاء و إظهار الاعمدة'
+
 ];

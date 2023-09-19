@@ -2,28 +2,36 @@
 
 namespace App\Http\Controllers\Student;
 
-use App\Http\Controllers\Controller;
-use App\Repository\StudentRepositoryInterface;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreStudentRequest;
+use App\Repository\StudentRepositoryInterface;
 
 class StudentController extends Controller
 {
+    // ++++++++++++++++++++++++ interface object ++++++++++++++++++++++++
     protected $repo;
-
+    // ++++++++++++++++++++++++ __construct() ++++++++++++++++++++++++
     public function __construct(StudentRepositoryInterface $repo)
     {
         $this->repo = $repo;
     }
-
+    // ++++++++++++++++++++++++ index() ++++++++++++++++++++++++
     public function index()
     {
-
+        $students = $this->repo->Get_Student();
+        return view('pages.Students.index',compact('students'));
     }
-
     /* +++++++++++++++++++++++++ create() +++++++++++++++++++++++++ */
     public function create()
     {
         return $this->repo->Create_Student();
+    }
+    /* +++++++++++++++++++++++++ show() : Show "student details" +++++++++++++++++++++++++ */
+    public function show($id)
+    {
+        return $this->repo->Show_Student($id);
     }
     // ++++++++++++ getclasses() : Get "all classes" According to selected "grade" selectbox ++++++++++++
     public function Get_classrooms($id)
@@ -31,63 +39,33 @@ class StudentController extends Controller
         return $this->repo->Get_classrooms($id);
     }
     // ++++++++++++ Get_Sections() : Get "all sections" According to selected "classes" selectbox ++++++++++++
-    public function Get_Sections($id)
+    public function Get_Sections($class_id, $section_id)
     {
-        return $this->repo->Get_Sections($id);
+        return $this->repo->Get_Sections($class_id,$section_id);
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    /* ++++++++++++++++++ store() : Store Student Data +++++++++++++++++++ */
+    public function store(StoreStudentRequest $request)
     {
-        //
+        return $this->repo->Store_Student($request);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    /* ++++++++++++++++++ edit() : Get Data of "Edit Student" +++++++++++++++++++ */
     public function edit($id)
     {
-        //
+        return $this->repo->Edit_Student($id);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    /* ++++++++++++++++++ update() : Update Data of "Edit Student" +++++++++++++++++++ */
+    public function update(StoreStudentRequest $request)
     {
-        //
+        return $this->repo->Update_Student($request);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    // ++++++++++++++++++++++++++ destroy() : Delete "Student" +++++++++++++++++
+    public function destroy(Request $request)
     {
-        //
+        return $this->repo->Delete_Student($request);
+    }
+    // ++++++++++++++++++++++++++ Upload_attachment() : Upload_attachment "Student" +++++++++++++++++
+    public function Upload_attachment(Request $request)
+    {
+        return $this->repo->Upload_attachment($request);
     }
 }

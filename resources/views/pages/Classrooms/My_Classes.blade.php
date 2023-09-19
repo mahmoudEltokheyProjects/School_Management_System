@@ -5,18 +5,95 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css"
       integrity="sha512-ARJR74swou2y0Q2V9k0GbzQ/5vJ2RBSoCWokg4zkfM29Fb3vZEQyv0iWBMW/yvKgyHSR/7D64pFMmU8nYmbRkg=="
       crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
     @section('title')
         {{ trans('My_Classes_trans.title_page') }}
     @stop
+    {{-- +++++++++++++++ Style : checkboxes and labels inside selectbox +++++++++++++++ --}}
+    <style>
+        /* selectbox and dropdown style in page */
+        .bootstrap-select
+        {
+            background-color: #84ba3f !important;
+            color: #fff  !important;
+            outline: none !important;
+        }
+        .dropdown-toggle
+        {
+            background-color: #84ba3f!important;
+            border-color: #84ba3f !important;
+            color: #fff  !important;
+            outline: none !important;
+            padding: 0 !important;
+            padding-left: 10px !important;
+            padding-right: 4px !important;
+        }
+        /* selectbox of show/hide columns */
+
+            .selectBox {
+            position: relative;
+            }
+
+            /* selectbox style */
+            .selectBox select
+            {
+                width: 100%;
+                padding: 0 !important;
+                padding-left: 4px;
+                padding-right: 4px;
+                color: #fff;
+                border: 1px solid #84ba3f;
+                background-color: #84ba3f;
+                height: 39px !important;
+            }
+
+            .overSelect {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            }
+
+            #checkboxes {
+            display: none;
+            border: 1px #dadada solid;
+            height: 125px;
+            overflow: auto;
+            padding-top: 10px;
+            /* text-align: end;  */
+            }
+
+            #checkboxes label {
+            display: block;
+            padding: 5px;
+
+            }
+
+            #checkboxes label:hover {
+            background-color: #ddd;
+            }
+            #checkboxes label span
+            {
+                font-weight: normal;
+            }
+    </style>
 @endsection
 @section('page-header')
-<!-- breadcrumb -->
-@section('PageTitle')
-    {{ trans('My_Classes_trans.title_page') }}
-@stop
-<!-- breadcrumb -->
+    <!-- breadcrumb -->
+    <div class="page-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mb-0"> {{ __('My_Classes_trans.breadcrumbs_title') }}</h4><br/>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
+                    <li class="breadcrumb-item"><a href="#" class="default-color">{{ __('main_trans.Dashboard') }}</a></li>
+                    <li class="breadcrumb-item active">{{ trans('My_Classes_trans.List_classes') }}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb -->
 @endsection
 @section('content')
 <!-- row -->
@@ -35,33 +112,68 @@
                         </ul>
                     </div>
                 @endif
-                {{-- ////////////// "Add Class" Button ////////////// --}}
-                <button type="button" class="button x-small" data-toggle="modal" data-target="#exampleModal">
-                    {{ trans('My_Classes_trans.add_class') }}
-                </button>
-                {{-- ////////////// "Delete_Selected_Checkbox" Button ////////////// --}}
-                <button type="button" class="button x-small" id="btn_delete_all">
-                    {{ trans('My_Classes_trans.delete_checkbox') }}
-                </button>
+                <div class="row">
+                    {{-- ////////////// "Add Class" Button ////////////// --}}
+                    <div class="col-md-3">
+                        <button type="button" class="button x-small col-md-12" data-toggle="modal" data-target="#exampleModal">
+                            {{ trans('My_Classes_trans.add_class') }}
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        {{-- ////////////// "Delete_Selected_Checkbox" Button ////////////// --}}
+                        <button type="button" class="button x-small col-md-12" id="btn_delete_all">
+                            {{ trans('My_Classes_trans.delete_checkbox') }}
+                        </button>
+                    </div>
+                    {{-- ====================== Show/Hide Columns ====================== --}}
+                    <div class="multiselect col-md-3">
+                        <div class="selectBox" onclick="showCheckboxes()">
+                            <select class="form-select form-control form-control-lg">
+                                <option> @lang('main_trans.show_hide_columns') </option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+
+                        <div id="checkboxes">
+                            {{-- +++++++++++++++++ checkbox1 : Name_class +++++++++++++++++ --}}
+                            <label for="col1_id">
+                                <input type="checkbox" id="col1_id" name="col1" checked="checked" />
+                                <span>@lang('My_Classes_trans.Name_class')</span> &nbsp;
+                            </label>
+                            {{-- +++++++++++++++++ checkbox2 : Name_Grade +++++++++++++++++ --}}
+                            <label for="col2_id">
+                                <input type="checkbox" id="col2_id" name="col2" checked="checked" />
+                                <span>@lang('My_Classes_trans.Name_Grade')</span>
+                            </label>
+                            {{-- +++++++++++++++++ checkbox3 : Processes +++++++++++++++++ --}}
+                            <label for="col3_id">
+                                <input type="checkbox" id="col3_id" name="col3" checked="checked" />
+                                <span>@lang('My_Classes_trans.Processes')</span>
+                            </label>
+                        </div>
+                    </div>
+                    {{-- ====================== Search Selecbox ====================== --}}
+                    <div class="col-md-3">
+                        <form action="{{ route('Filter_Classes') }}" method="POST">
+                            {{ csrf_field() }}
+                            <select class="selectpicker form-control py-2" name="Grade_id" required
+                                    {{-- Execute "form" When Click on "Selectbox"  --}}
+                                    onchange="this.form.submit()">
+                                <option value="" selected disabled>
+                                    {{ trans('My_Classes_trans.Search_By_Grade') }}
+                                </option>
+                                @foreach ($Grades as $Grade)
+                                    <option value="{{ $Grade->id }}">{{ $Grade->Name }}</option>
+                                @endforeach
+                            </select>
+                        </form>
+                    </div>
+                </div>
+
                 <br><br>
-                {{-- ////////////// Search Selecbox ////////////// --}}
-                <form action="{{ route('Filter_Classes') }}" method="POST">
-                    {{ csrf_field() }}
-                    <select class="selectpicker form-control py-2 col-lg-3" data-style="btn-info" name="Grade_id" required
-                            {{-- Execute "form" When Click on "Selectbox"  --}}
-                            onchange="this.form.submit()">
-                        <option value="" selected disabled>
-                            {{ trans('My_Classes_trans.Search_By_Grade') }}
-                        </option>
-                        @foreach ($Grades as $Grade)
-                            <option value="{{ $Grade->id }}">{{ $Grade->Name }}</option>
-                        @endforeach
-                    </select>
-                </form>
-                <br>
                 {{-- ++++++++++++++++++++++++++++++++++ Show "All Classes" Table ++++++++++++++++++++++++++++++++++ --}}
                 <div class="table-responsive">
-                    <table id="datatable" class="table table-hover table-sm table-bordered p-0" data-page-length="50"
+                    <table id="datatable" class="table table-hover table-sm table-bordered hideShowTable p-0" data-page-length="50"
                         style="text-align: center">
                         <thead>
                             <tr>
@@ -73,11 +185,11 @@
                                 {{-- Column 2 : ترقيم --}}
                                 <th>#</th>
                                 {{-- Column 3 : ClassName --}}
-                                <th>{{ trans('My_Classes_trans.Name_class') }}</th>
+                                <th class="col1">{{ trans('My_Classes_trans.Name_class') }}</th>
                                 {{-- Column 3 : GradeName --}}
-                                <th>{{ trans('My_Classes_trans.Name_Grade') }}</th>
+                                <th class="col2">{{ trans('My_Classes_trans.Name_Grade') }}</th>
                                 {{-- Column 4 : Processes --}}
-                                <th>{{ trans('My_Classes_trans.Processes') }}</th>
+                                <th class="col3">{{ trans('My_Classes_trans.Processes') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -102,11 +214,11 @@
                                     {{-- Column 2 : ترقيم --}}
                                     <td>{{ $i }}</td>
                                     {{-- Column 3 : ClassName --}}
-                                    <td>{{ $My_Class->Name_Class }}</td>
+                                    <td class="col1">{{ $My_Class->Name_Class }}</td>
                                     {{-- Column 3 : GradeName --}}
-                                    <td>{{ $My_Class->Grades->Name }}</td>
+                                    <td class="col2">{{ $My_Class->Grades->Name }}</td>
                                     {{-- Column 4 : Processes --}}
-                                    <td>
+                                    <td class="col3">
                                         {{-- +++++++++++++++ Edit Button +++++++++++++++ --}}
                                         <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                             data-target="#edit{{ $My_Class->id }}"
@@ -369,7 +481,7 @@
 @section('js')
 
 <script type="text/javascript">
-
+    // +++++++++++++++++ Delete All Selected +++++++++++++++++
     $(function() {
         /* When Click on "deleted Selected" button , Select "All checkboxes"
          1- make "empty array" called "selected" ,
@@ -390,6 +502,29 @@
             }
         });
     });
+    // +++++++++++++++++ Checkboxs and label inside selectbox ++++++++++++++
+    $("input:checkbox:not(:checked)").each(function() {
+            var column = "table ." + $(this).attr("name");
+            $(column).hide();
+        });
+
+        $("input:checkbox").click(function(){
+            var column = "table ." + $(this).attr("name");
+            $(column).toggle();
+        });
+        // +++++++++++++++++ Checkboxs and label inside selectbox : showCheckboxes() method ++++++++++++++
+        var expanded = false;
+        function showCheckboxes()
+        {
+            var checkboxes = document.getElementById("checkboxes");
+            if (!expanded) {
+                checkboxes.style.display = "block";
+                expanded = true;
+            } else {
+                checkboxes.style.display = "none";
+                expanded = false;
+            }
+        }
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"

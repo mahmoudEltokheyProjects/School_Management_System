@@ -66,7 +66,9 @@ Route::group(
             // Get "classrooms" of "Selected Grade"
             Route::get('/classes/{id}', 'StudentController@Get_classrooms');
             // Get "sections" of "Selected Grade"
-            Route::get('/sections/{id}', 'StudentController@Get_Sections');
+            Route::get('/sections/{Class_id}/{Grade_id}', 'StudentController@Get_Sections');
+            // Upload Attachmenets For Students in "show page" of "student"
+            Route::post('Upload_attachment', 'StudentController@Upload_attachment')->name('Upload_attachment');
         });
     }
 );

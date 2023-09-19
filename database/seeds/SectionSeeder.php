@@ -42,7 +42,7 @@ class SectionSeeder extends Seeder
             else
             {
                 // Classrooms Loop : 3 Classrooms For "Middle" , "High" Stage
-                for( $j=1 ; $j <= 3 ; $j++ )
+                for( $j=7 ; $j <= 12 ; $j++ )
                 {
                     foreach ($sections as $section)
                     {

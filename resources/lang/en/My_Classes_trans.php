@@ -3,7 +3,7 @@
 return [
 
     'title_page' => 'Classes',
-    'List_classes' => 'List Classes',
+    'List_classes' => 'Classes List',
     'breadcrumbs_title' => 'Show Classes' ,
     'add_class' => 'add class',
     'edit_class'=> 'Edit Class',
