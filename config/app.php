@@ -134,6 +134,8 @@ return [
     |
     */
     'providers' => [
+        // ++++++++++++++++++ Captcha ++++++++++++++++++
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         /*
          * Laravel Framework Service Providers...
          */
@@ -191,7 +193,8 @@ return [
     */
 
     'aliases' => [
-
+        // +++++++++++++++++++++++++ Captcha +++++++++++++++++++++++++
+        'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,

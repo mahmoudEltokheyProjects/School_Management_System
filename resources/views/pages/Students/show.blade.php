@@ -47,7 +47,21 @@
                                                 <th scope="row">{{trans('Student_trans.name')}}</th>
                                                 <td>{{ $Student->name }}</td>
                                                 <th scope="row">{{trans('Student_trans.email')}}</th>
-                                                <td>{{$Student->email}}</td>
+                                                {{-- Convert the email and phone strings to arrays --}}
+                                                @php
+                                                    $emailArray = explode(',', $Student->email);
+                                                    // Remove "square brackets" from each element in the "emailArray"
+                                                    foreach ($emailArray as $key => $email)
+                                                    {
+                                                        $emailArray[$key] = str_replace(['[', ']','"'], '', $email);
+                                                    }
+                                                @endphp
+                                                <td class="col3">
+                                                    {{-- Iterate over the email array elements --}}
+                                                    @foreach ($emailArray as $email)
+                                                        {{ $email }}<br>
+                                                    @endforeach
+                                                </td>
                                                 <th scope="row">{{trans('Student_trans.gender')}}</th>
                                                 <td>{{$Student->gender->Name}}</td>
                                                 <th scope="row">{{trans('Student_trans.Nationality')}}</th>

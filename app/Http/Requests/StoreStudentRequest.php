@@ -19,7 +19,8 @@ class StoreStudentRequest extends FormRequest
         [
             'name_ar'         => 'required' ,
             'name_en'         => 'required' ,
-            'email'           => 'required|email|unique:students,email,'.$this->id ,
+            'email'           => ['nullable', 'array'],
+            'email.*'         => ['email'], // Validate each element of the "email" array as an email address
             'password'        => 'required|string|min:6|max:10',
             'gender_id'       => 'required',
             'nationalitie_id' => 'required',
@@ -30,6 +31,12 @@ class StoreStudentRequest extends FormRequest
             'section_id'      => 'required' ,
             'parent_id'       => 'required' ,
             'academic_year'   => 'required'
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'email.*.email' => 'One or more of the email addresses is invalid.',
         ];
     }
 }

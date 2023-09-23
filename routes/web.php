@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CaptchaController;
 use App\Models\Classroom;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +64,8 @@ Route::group(
         // +++++++++++++++++++ Students +++++++++++++++++++
         Route::group(['namespace'=>'Student'],function(){
             Route::resource('Student', 'StudentController');
+            // date fiter of the students
+            Route::get('filter/','StudentController@dateFilter')->name('student.filter');
             // Get "classrooms" of "Selected Grade"
             Route::get('/classes/{id}', 'StudentController@Get_classrooms');
             // Get "sections" of "Selected Grade"
@@ -72,6 +75,8 @@ Route::group(
         });
     }
 );
-
+// +++++++++++++++++ captcha +++++++++++++++
+// Route::get('reload-captcha', [CaptchaController::class,'reloadCaptcha']);
+// Route::post('/post',[CaptchaController::class,'post']);
 Auth::routes();
 

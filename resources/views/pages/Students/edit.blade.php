@@ -65,10 +65,75 @@
                     {{-- ///////////////// Row 2 ///////////////// --}}
                     <div class="row">
                         {{-- ++++++++++++++++ "email" inputField ++++++++++++++++ --}}
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <div class="form-group">
                                 <label>{{trans('Student_trans.email')}} : </label>
                                 <input type="email" value="{{ $Students->email }}" name="email" class="form-control" >
+                            </div>
+                        </div> --}}
+                        {{-- +++++++++++++++++++++++++++++++ email array ++++++++++++++++++++++++ --}}
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <table class="bordered">
+                                    <thead class="email_thead">
+                                        <tr>
+                                            <th class="text-left" style="font-weight: normal;">
+                                                <label class="mb-2">
+                                                    <span class="text-danger">*</span>@lang('lang.email')
+                                                </label>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="email_tbody">
+                                        <tr>
+                                            <td class="col-md-12 p-0">
+                                                <div class="select_body d-flex justify-content-between align-items-center" >
+                                                    <input type="text"
+                                                        class="form-control"
+                                                        placeholder="@lang('lang.email')"
+                                                        name="email[]"
+                                                        value="{{ old('email') }}" required >
+                                                    <td  class="col-md-6">
+                                                        {{-- +++++++++++++ Add New Phone Number +++++++++ --}}
+                                                        <a href="javascript:void(0)" class="btn btn-xs btn-primary addRow_email" type="button">
+                                                            <i class="fa fa-plus"></i>
+                                                        </a>
+                                                    </td>
+                                                    @error('email')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                    @php
+                                                        $emailArray = explode(',', $Students->email);
+                                                        // Remove square brackets from each element in the emailArray
+                                                        foreach ($emailArray as $key => $email)
+                                                        {
+                                                            $emailArray[$key] = str_replace(['[', ']','"'], '', $email);
+                                                        }
+                                                    @endphp
+                                                    {{-- Iterate over the email array elements --}}
+                                                    @foreach ($emailArray as $email)
+                                                        <tr>
+                                                            <td class="col-md-12 p-0">
+                                                                <input  type="text" class="form-control" placeholder="@lang('lang.email')" name="email[]"
+                                                                        value="{{ $email }}" required >
+                                                                        @error('email')
+                                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                                        @enderror
+                                                            </td>
+                                                            <td class="col-md-6">
+                                                                <a href="javascript:void(0)" class="btn btn-xs btn-danger deleteRow_email" type="button">
+                                                                    <i class="fa fa-close"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </tr>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         {{-- ++++++++++++++++ "password" inputField ++++++++++++++++ --}}
@@ -195,7 +260,7 @@
 @section('js')
     <script>
         $(document).ready(function(){
-            // ------------------------------------ Grades Selectbox ------------------------------------ 
+            // ------------------------------------ Grades Selectbox ------------------------------------
             // on change on "selectbox with name='Grade_id' " , Execute The following function
             $('select[name=Grade_id]').on('change',function(){
                 // Get "grade_id" of "selected option" from "selectbox" ==> ["value" of "selected option" == "grade_id"]
@@ -224,7 +289,7 @@
                     console.log('AJAX load did not work');
                 }
             });
-            // ------------------------------------ Classrooms Selectbox ------------------------------------ 
+            // ------------------------------------ Classrooms Selectbox ------------------------------------
             // ++++++++++++ getsections() : Get "all sections" According to selected "class" selectbox ++++++++++++
             // on change on "selectbox with name='Grade_id' " , Execute The following function
             $('select[name="Classroom_id"]').on('change', function(){
@@ -250,6 +315,30 @@
                 {
                     console.log('AJAX load did not work');
                 }
+            });
+            // ============================== Email Repeater ==============================
+            // +++++++++++++ Add New Row in email +++++++++++++
+            $('.email_tbody').on('click','.addRow_email', function(){
+                console.log('new Email inputField was added');
+                var tr =`<tr>
+                            <td class="col-md-12 p-0">
+                                <input  type="text" class="form-control" placeholder="@lang('lang.email')" name="email[]"
+                                        value="{{ old('email') }}" required >
+                                        @error('email')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                            </td>
+                            <td class="col-md-6">
+                                <a href="javascript:void(0)" class="btn btn-xs btn-danger deleteRow_email" type="button">
+                                    <i class="fa fa-close"></i>
+                                </a>
+                            </td>
+                        </tr>`;
+                $('.email_tbody').append(tr);
+            });
+            // +++++++++++++ Delete Row in email +++++++++++++
+            $('.email_tbody').on('click','.deleteRow_email',function(){
+                $(this).parent().parent().remove();
             });
         });
    </script>

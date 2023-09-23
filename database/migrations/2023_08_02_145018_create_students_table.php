@@ -16,7 +16,9 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->text('name');
-            $table->string('email')->unique();
+            // $table->string('email')->unique();
+            // list of "emails"
+            $table->json('email', 30)->nullable();
             $table->string('password');
             // Foreign Key : gender_id
             $table->bigInteger('gender_id')->unsigned();

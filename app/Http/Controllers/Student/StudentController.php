@@ -44,7 +44,7 @@ class StudentController extends Controller
         return $this->repo->Get_Sections($class_id,$section_id);
     }
     /* ++++++++++++++++++ store() : Store Student Data +++++++++++++++++++ */
-    public function store(StoreStudentRequest $request)
+    public function store(Request $request)
     {
         return $this->repo->Store_Student($request);
     }
@@ -54,7 +54,7 @@ class StudentController extends Controller
         return $this->repo->Edit_Student($id);
     }
     /* ++++++++++++++++++ update() : Update Data of "Edit Student" +++++++++++++++++++ */
-    public function update(StoreStudentRequest $request)
+    public function update(Request $request)
     {
         return $this->repo->Update_Student($request);
     }
@@ -67,5 +67,10 @@ class StudentController extends Controller
     public function Upload_attachment(Request $request)
     {
         return $this->repo->Upload_attachment($request);
+    }
+    // ++++++++++++++++++ Date Filter ++++++++++++++
+    public function dateFilter(Request $request)
+    {
+        return $this->repo->dateFilter($request);
     }
 }

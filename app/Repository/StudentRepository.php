@@ -54,6 +54,7 @@ class StudentRepository implements StudentRepositoryInterface
     /* ++++++++++++ Store_Student() : Store Student Data ++++++++++++ */
     public function Store_Student($request)
     {
+        // dd($request);
         // if There are any Error in "saving students images" , Cancel The saving of students data
         // لو حصل مشكلة اثناء تخزين صور الطالب فهيقوم بالغاء كل البيانات بتاعت الطالب ومش هيخزنها في قاعدة البيانات
         DB::beginTransaction();
@@ -62,7 +63,8 @@ class StudentRepository implements StudentRepositoryInterface
             // ++++++++++++++++ Store Student Data ++++++++++++++++
             $student = new Student();
             $student->name           = ['ar'=>$request->name_ar,'en'=>$request->name_en];
-            $student->email          = $request->email;
+            // ++++++++ store email in array ++++++++
+            $student->email          = json_encode($request->email);
             $student->password       = Hash::make($request->password);
             $student->gender_id      = $request->gender_id;
             $student->nationalitie_id= $request->nationalitie_id;
@@ -96,10 +98,11 @@ class StudentRepository implements StudentRepositoryInterface
             }
             // Save Data in DB
             DB::commit();
-            return redirect()->route('Student.create')->with('record_added',trans('messages.success'));
+            return redirect()->route('Student.index')->with('record_added',trans('messages.success'));
         }
         catch (\Exception $e)
         {
+            dd($e);
             // if There are any Error in "saving students images" , Rollback The saving of students data
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -121,6 +124,7 @@ class StudentRepository implements StudentRepositoryInterface
     {
         try
         {
+
             $student = Student::findOrFail($request->id);
             $student->name = ['ar'=>$request->name_ar , 'en'=>$request->name_en];
             $student->email = $request->email ;
@@ -135,7 +139,7 @@ class StudentRepository implements StudentRepositoryInterface
             $student->parent_id = $request->parent_id;
             $student->academic_year = $request->academic_year;
             $student->save();
-            return redirect()->back()->with('record_updated',trans('messages.update'));
+            return redirect()->route('Student.index')->with('record_updated',trans('messages.update'));
         }
         catch (\Exception $e)
         {
@@ -167,6 +171,14 @@ class StudentRepository implements StudentRepositoryInterface
             // Store "uploaded images" in DB
 
         }
+    }
+    // ++++++++++++++++++ Date Filter ++++++++++++++
+    public function dateFilter($request)
+    {
+        $start_date = $request->start_date ;
+        $end_date = $request->end_date ;
+        $students = Student::whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->get();
+        return view('pages.Students.index',compact('students'));
     }
 }
 

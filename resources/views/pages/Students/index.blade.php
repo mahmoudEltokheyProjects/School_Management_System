@@ -35,6 +35,25 @@
                                    aria-pressed="true"> <i class="fa fa-plus"></i> {{trans('main_trans.add_student')}}
                                 </a>
                                 <br><br>
+                                {{-- ++++++++++++++++++++ date search +++++++++++++ --}}
+                                <form action="{{route('student.filter')}}" method="GET">
+                                    <div class="row mb-5">
+                                        {{-- Start Date --}}
+                                        <div class="col-md-3">
+                                            <label for="start_date">{{ __('main_trans.start_date') }} : </label>
+                                            <input type="date" class="form-control" name="start_date" id="start_date">
+                                        </div>
+                                        {{-- End Date --}}
+                                        <div class="col-md-3">
+                                            <label for="end_date">{{ __('main_trans.end_date') }} : </label>
+                                            <input type="date" class="form-control" name="end_date" id="end_date">
+                                        </div>
+                                        {{-- filter button --}}
+                                        <div class="col-md-3 mt-4 pt-3">
+                                           <button type="submit" class="btn btn-primary"> {{ __('main_trans.Filter') }}</button>
+                                        </div>
+                                    </div>
+                                </form>
                                 {{-- +++++++++++++++++++++ "Student" Table +++++++++++++++++++++ --}}
                                 <div class="table-responsive">
                                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0"
@@ -49,6 +68,7 @@
                                             <th>{{trans('Student_trans.Grade')}}</th>
                                             <th>{{trans('Student_trans.classrooms')}}</th>
                                             <th>{{trans('Student_trans.section')}}</th>
+                                            <th>{{trans('Student_trans.created_at')}}</th>
                                             <th>{{trans('Student_trans.Processes')}}</th>
                                         </tr>
                                         </thead>
@@ -58,11 +78,26 @@
                                                 {{-- $loop->index == index of current iteration of loop , start with 0 --}}
                                                 <td>{{ $loop->index+1 }}</td>
                                                 <td>{{$student->name}}</td>
-                                                <td>{{$student->email}}</td>
+                                                {{-- Convert the email and phone strings to arrays --}}
+                                                @php
+                                                    $emailArray = explode(',', $student->email);
+                                                    // Remove "square brackets" from each element in the "emailArray"
+                                                    foreach ($emailArray as $key => $email)
+                                                    {
+                                                        $emailArray[$key] = str_replace(['[', ']','"'], '', $email);
+                                                    }
+                                                @endphp
+                                                <td class="col3">
+                                                    {{-- Iterate over the email array elements --}}
+                                                    @foreach ($emailArray as $email)
+                                                        {{ $email }}<br>
+                                                    @endforeach
+                                                </td>
                                                 <td>{{$student->gender->Name}}</td>
                                                 <td>{{$student->grade->Name}}</td>
                                                 <td>{{$student->classroom->Name_Class}}</td>
                                                 <td>{{$student->section->Name_Section}}</td>
+                                                <td>{{ $student->created_at->format('Y-m-d') }}</td>
                                                 {{-- Processes Button --}}
                                                 <td>
                                                     <div class="dropdown show">
@@ -71,12 +106,12 @@
                                                         </a>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                                             {{-- Show Button --}}
-                                                            <a class="dropdown-item" href="{{route('Student.show',$student->id)}}">
+                                                            <a class="dropdown-item" href="{{route('Student.show',$student->id)}}" target="_blank">
                                                                 <i style="color: #ffc107" class="fa fa-eye "></i>&nbsp;
                                                                 {{ trans('Student_trans.Show_Student_Data') }}
                                                             </a>
                                                            {{-- Edit Button --}}
-                                                            <a class="dropdown-item" href="{{route('Student.edit',$student->id)}}">
+                                                            <a class="dropdown-item" href="{{route('Student.edit',$student->id)}}" target="_blank">
                                                                 <i style="color:green" class="fa fa-edit"></i>&nbsp;
                                                                 {{ trans('Student_trans.Edit_Student_Data') }}
                                                             </a>

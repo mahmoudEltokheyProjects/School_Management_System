@@ -21,5 +21,7 @@ interface StudentRepositoryInterface
     public function Delete_Student($request);
     // Upload_attachment
     public function Upload_attachment($request);
+    // dateFilter
+    public function dateFilter($request);
 }
 ?>

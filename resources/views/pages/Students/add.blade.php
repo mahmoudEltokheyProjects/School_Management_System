@@ -59,10 +59,48 @@
                         </div>
                         {{-- ++++++++++++++++++++++++++++++ email inputField ++++++++++++++++++++++++++++++ --}}
                         <div class="row">
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{trans('Student_trans.email')}} : </label>
                                     <input type="email"  name="email" class="form-control" value="{{ old('email') }}">
+                                </div>
+                            </div> --}}
+                            {{-- +++++++++++++++++++++++++++++++ email array ++++++++++++++++++++++++ --}}
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <table class="bordered">
+                                        <thead class="email_thead">
+                                            <tr>
+                                                <th class="text-left" style="font-weight: normal;">
+                                                    <label class="mb-2">
+                                                        <span class="text-danger">*</span>@lang('Student_trans.email')
+                                                    </label>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="email_tbody">
+                                            <tr>
+                                                <td class="col-md-12 p-0">
+                                                    <div class="select_body d-flex justify-content-between align-items-center" >
+                                                        <input type="text"
+                                                            class="form-control"
+                                                            placeholder="@lang('Student_trans.email')"
+                                                            name="email[]"
+                                                            value="{{ old('email') }}" required >
+                                                        @error('email')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </td>
+                                                <td  class="col-md-6">
+                                                    {{-- +++++++++++++ Add New Phone Number +++++++++ --}}
+                                                    <a href="javascript:void(0)" class="btn btn-xs btn-primary addRow_email" type="button">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             {{-- ++++++++++++++++++++++++++++++ password inputField ++++++++++++++++++++++++++++++ --}}
@@ -253,6 +291,28 @@
                     console.log('AJAX load did not work');
                 }
             });
+        });
+        // ++++++++++++++++++++++++ Add New Row in "Email" inputField ++++++++++++++++++++++++
+        $('.email_tbody').on('click','.addRow_email', function(){
+            console.log('new Email inputField was added');
+            var tr = `<tr>
+                        <td class="col-md-12 p-0">
+                            <input  type="text" class="form-control" placeholder="@lang('Student_trans.email')" name="email[]"
+                                    value="{{ old('email') }}" required >
+                                    @error('email')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                        </td>
+                        <td class="col-md-6">
+                            <a href="javascript:void(0)" class="btn btn-xs btn-danger deleteRow_email" type="button">
+                                <i class="fa fa-close"></i>
+                            </a>
+                        </td>
+                    </tr> `;
+            $('.email_tbody').append(tr);
+        } );
+        $('.email_tbody').on('click','.deleteRow_email',function(){
+            $(this).parent().parent().remove();
         });
    </script>
 

@@ -371,23 +371,21 @@
                                 <div data-repeater-list="List_Classes">
                                     <div data-repeater-item>
                                         <div class="row">
-
+                                            {{-- +++++++++++++++++ arabic_class_name +++++++++++++ --}}
                                             <div class="col">
                                                 <label for="Name"
                                                     class="mr-sm-2">{{ trans('My_Classes_trans.Name_class') }}
                                                     :</label>
                                                 <input class="form-control" type="text" name="Name" />
                                             </div>
-
-
+                                            {{-- +++++++++++++++++ english_class_name +++++++++++++ --}}
                                             <div class="col">
                                                 <label for="Name"
                                                     class="mr-sm-2">{{ trans('My_Classes_trans.Name_class_en') }}
                                                     :</label>
                                                 <input class="form-control" type="text" name="Name_class_en" />
                                             </div>
-
-
+                                            {{-- +++++++++++++++++ Grade_Name +++++++++++++ --}}
                                             <div class="col">
                                                 <label for="Name_en"
                                                     class="mr-sm-2">{{ trans('My_Classes_trans.Name_Grade') }}
@@ -401,9 +399,8 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-
                                             </div>
-
+                                            {{-- +++++++++++++++++ Processes +++++++++++++ --}}
                                             <div class="col">
                                                 <label for="Name_en"
                                                     class="mr-sm-2">{{ trans('My_Classes_trans.Processes') }}

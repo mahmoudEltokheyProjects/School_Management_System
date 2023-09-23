@@ -39,6 +39,19 @@
                                 @enderror
                             </div>
                         </div>
+                        {{-- ++++++++++++++++++++++++ Captcha InputField ++++++++++++++++++++++++ --}}
+                        {{-- <div class="form-group row">
+                            <div class="col-md-6 offset-md-4 captcha">
+                                <span>{!! captcha_img('math') !!}</span>
+                                <button type="button" class="btn btn-danger reload" id="reload">&#x21bb</button>
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <input type="text" class="form-control" placeholder="Enter Captcha" name="captcha">
+                            @error('captcha')
+                                <label for="" class="text-danger">{{ $message }}</label>
+                            @enderror
+                        </div> --}}
                         {{-- ++++++++++++++++++++++++ Remember InputField ++++++++++++++++++++++++ --}}
                         <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
@@ -73,4 +86,21 @@
         </div>
     </div>
 </div>
+<script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script>
+{{--         // ++++++++++++++++++++++ Captcha : change 'captcha' when reload ++++++++++++++++++++++  --}}
+{{-- <script>
+    $(document).ready(function(){
+        $('#reload').click(function(){
+            $.ajax({
+                type:'GET',
+                url:'reload-captcha',
+                success:function(data) {
+                    $('.captcha span').html(data.captcha);
+                }
+            });
+        });
+    });
+
+</script> --}}
 @endsection
+

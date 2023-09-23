@@ -44,6 +44,8 @@ return [
     'Users'=>'Users',
     'Copyright' => 'Copyright',
     'Name_Programer' => 'MahmoudEltokhey EltokheySoft All Rights Reserved',
-    'show_hide_columns' => 'Show/Hide Columns'
-
+    'show_hide_columns' => 'Show/Hide Columns' ,
+    'Filter' => 'filter' ,
+    'start_date'=>'Start Date' ,
+    'end_date'=>'End Date' ,
 ];

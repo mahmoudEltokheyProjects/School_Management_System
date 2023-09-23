@@ -48,6 +48,8 @@ return [
     'Users'=>'المستخدمين',
     'Copyright' => 'جميع الحقوق محفوظة ',
     'Name_Programer' => 'محمود الطوخي  طوخي سوفت' ,
-    'show_hide_columns' => 'اخفاء و إظهار الاعمدة'
-
+    'show_hide_columns' => 'اخفاء و إظهار الاعمدة' ,
+    'Filter' => 'بحث' ,
+    'start_date'=>'تاريخ البداية' ,
+    'end_date'=>'تاريخ النهاية' ,
 ];

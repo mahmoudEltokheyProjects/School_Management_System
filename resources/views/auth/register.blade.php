@@ -6,7 +6,16 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
-
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <strong>Errors !</strong> <br/>
+                        <ul>
+                            @foreach ( $errors->all() as $error )
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
@@ -52,7 +61,7 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{-- ++++++++++++++++++++++++ password-confirm +++++++++++++++++++++++ --}}
                         <div class="form-group row">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
@@ -60,7 +69,16 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+                        {{-- ++++++++++++++++++++++++ Captcha +++++++++++++++++++++++ --}}
+                        <div class="form-group row">
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Google recaptcha</label>
+                            <div class="col-md-6">
+                                {!! NoCaptcha::renderJs() !!}
+                                {!! NoCaptcha::display() !!}
+                            </div>
+                        </div>
 
+                        {{-- ++++++++++++++++++++++++ Register Button +++++++++++++++++++++++ --}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
