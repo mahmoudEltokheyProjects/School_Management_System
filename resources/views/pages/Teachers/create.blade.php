@@ -35,8 +35,8 @@
                                 <div class="form-row">
                                     {{-- +++++++++++++++++ inputField : Email +++++++++++++++++ --}}
                                     <div class="col">
-                                        <label for="title">{{trans('Teacher_trans.Email')}}</label>
-                                        <input type="email" name="Email" class="form-control">
+                                        <label for="email">{{trans('Teacher_trans.Email')}}</label>
+                                        <input type="email" name="Email" class="form-control" id="email">
                                         @error('Email')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror

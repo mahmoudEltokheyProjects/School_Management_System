@@ -22,7 +22,8 @@ class TeacherController extends Controller
     public function index()
     {
         $Teachers = $this->repo->getAllTeachers();
-        return view('pages.Teachers.Teachers',compact('Teachers'));
+        $specializations = $this->repo->getAllSpecializations();
+        return view('pages.Teachers.Teachers',compact('Teachers','specializations'));
     }
    /* ++++++++++++++++++ getAllSpecializations() ++++++++++++++++++ */
    public function getAllGenders()
@@ -56,38 +57,19 @@ class TeacherController extends Controller
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Teacher  $teacher
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Teacher $teacher)
+    /* ++++++++++++++++++++++++++ edit() +++++++++++++++++++++ */
+    public function edit($id)
     {
-        //
+
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Teacher  $teacher
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Teacher $teacher)
+    /* ++++++++++++++++++++++++++ update() +++++++++++++++++++++ */
+    public function update(Request $request)
     {
-        //
+        return $this->repo->UpdateTeacher($request);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Teacher  $teacher
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Teacher $teacher)
+    /* ++++++++++++++++++++++++++ destroy() +++++++++++++++++++++ */
+    public function destroy(Request $teacher)
     {
-        //
+        return $this->repo->DeleteTeacher($teacher);
     }
 }

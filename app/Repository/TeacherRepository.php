@@ -45,7 +45,48 @@ class TeacherRepository implements TeacherRepositoryInterface
         {
             return redirect()->back()->with(['error' => $e->getMessage()]);
         }
+    }
+    // ++++++++++++++++++++++++++ update() : update teacher ++++++++++++++++++++++++++
+    public function UpdateTeacher($request)
+    {
+        // return $request;
+        try
+        {
 
+            $teacher = Teacher::findOrFail($request->id);
+            $teacher->name = ['ar'=>$request->Name_ar , 'en'=>$request->Name_en];
+            $teacher->Email = $request->Email  ;
+            $teacher->Address = $request->Address ;
+            if( $request->password != null && $request->password != '' )
+            {
+                $teacher->password = Hash::make($request->password) ;
+            }
+            $teacher->Gender_id = $request->Gender_id;
+            $teacher->Specialization_id = $request->Specialization_id;
+            $teacher->Joining_Date = $request->Joining_Date;
+            $teacher->save();
+            return redirect()->route('Teacher.index')->with('record_updated',trans('messages.update'));
+        }
+        catch (\Exception $e)
+        {
+            dd($e);
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+    // ++++++++++++++++++++++++++ delete() : update teacher ++++++++++++++++++++++++++
+    public function DeleteTeacher($request)
+    {
+        try
+        {
+            $teacher = Teacher::findOrFail($request->id);
+            $teacher->delete();
+            return redirect()->route('Teacher.index')->with('record_deleted',trans('messages.delete'));
+
+        }
+        catch(Exception $e)
+        {
+            return redirect()->route('Teacher.index')->with('record_deleted',trans('Grades_trans.delete_grade_error'));
+        }
     }
 }
 
