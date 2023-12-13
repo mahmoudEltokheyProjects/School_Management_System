@@ -28,6 +28,15 @@
 <script src="{{ URL::asset('assets/js/lobilist.js') }}"></script>
 <!-- custom -->
 <script src="{{ URL::asset('assets/js/custom.js') }}"></script>
+{{-- +++++++++++++++ select2 selectbox +++++++++++++++++ --}}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{{-- ///////// select2 selectbox ///////// --}}
+<script>
+    $(document).ready(function() {
+      // Apply Select2 to all elements with the "select2" class
+      $('.select2').select2();
+    });
+</script>
 {{-- ++++++++++++++++++++++++++ CheckAll() : Check_All Checkboxs ++++++++++++++++++++++++++ --}}
 <script>
     function CheckAll(className,elem)
@@ -88,3 +97,4 @@
             toastr.error('{!!Session::get("record_deleted")!!}');
         </script>
     @endif
+
