@@ -51,7 +51,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             {{-- store selected "city_id" to store it in "quarters table" in DB --}}
-                            <input type="hidden" name="city_id" id="cityId" />
+                            <input type="hidden" name="city_id" id="cityId"/>
                             <label for="name">@lang('Student_trans.quarter_name')</label>
                             <div class="select_body d-flex justify-content-between align-items-center" >
                                 <input type="text" required
