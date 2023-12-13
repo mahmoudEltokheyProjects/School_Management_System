@@ -42,6 +42,18 @@ class CreateStudentsTable extends Migration
             // Foreign Key : parent_id
             $table->bigInteger('parent_id')->unsigned();
             $table->foreign('parent_id')->references('id')->on('my__parents')->onDelete('cascade');
+            // Foreign Key : country_id
+            $table->unsignedBigInteger('country_id');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+            // Foreign Key : state_id
+            $table->unsignedBigInteger('state_id');
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
+            // Foreign Key : city_id
+            $table->unsignedBigInteger('city_id');
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
+            // Foreign Key : quarter_id
+            $table->unsignedBigInteger('quarter_id');
+            $table->foreign('quarter_id')->references('id')->on('quarters')->onDelete('cascade');
             // academic_year column
             $table->string('academic_year');
             // "created_at" , "updated_at" Column

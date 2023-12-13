@@ -46,6 +46,26 @@ class Student extends Model
     {
         return $this->belongsTo('App\Models\My_Parent','parent_id');
     }
+    // +++++++++++++++++++ Relationship : 1:M : "student" belongs only to "one country" +++++++++++++++++++
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+    // +++++++++++++++++++ Relationship : 1:M : "student" belongs only to "one state" +++++++++++++++++++
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+    // +++++++++++++++++++ Relationship : 1:M : "student" belongs only to "one city" +++++++++++++++++++
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+    // +++++++++++++++++++ Relationship : 1:M : "student" belongs only to "one quarter" +++++++++++++++++++
+    public function quarter()
+    {
+        return $this->belongsTo(Quarter::class);
+    }
 }
 
 

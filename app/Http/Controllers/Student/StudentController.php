@@ -6,6 +6,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStudentRequest;
+use App\Models\State;
 use App\Repository\StudentRepositoryInterface;
 
 class StudentController extends Controller
@@ -27,6 +28,31 @@ class StudentController extends Controller
     public function create()
     {
         return $this->repo->Create_Student();
+    }
+    // ++++++++++++++ fetchState(): to get "states" of "selected country" selectbox ++++++++++++++
+    public function fetchState(Request $request)
+    {
+        return $this->repo->FetchState($request);
+    }
+    // ++++++++++++++ fetchState(): to get "states" of "selected country" selectbox ++++++++++++++
+    public function fetchCity(Request $request)
+    {
+        return $this->repo->FetchCity($request);
+    }
+    // ++++++++++++++ fetchState(): to get "states" of "selected country" selectbox ++++++++++++++
+    public function fetchQuarter(Request $request)
+    {
+        return $this->repo->FetchQuarter($request);
+    }
+    // +++++++++ store city +++++++++++
+    public function storeRegion(Request $request)
+    {
+        return $this->repo->StoreRegion($request);
+    }
+    // +++++++++ store quarter +++++++++++
+    public function storeQuarter(Request $request)
+    {
+        return $this->repo->StoreQuarter($request);
     }
     /* +++++++++++++++++++++++++ show() : Show "student details" +++++++++++++++++++++++++ */
     public function show($id)

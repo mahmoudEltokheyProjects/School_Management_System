@@ -8,6 +8,7 @@ use App\Http\Controllers\Grades\GradeController;
 use App\Http\Controllers\Teacher\TeacherController;
 use App\Http\Controllers\Students\StudentController;
 use App\Http\Controllers\Classrooms\ClassroomController;
+use App\Http\Controllers\Student\StudentController as StudentStudentController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -72,6 +73,16 @@ Route::group(
             Route::get('/sections/{Class_id}/{Grade_id}', 'StudentController@Get_Sections');
             // Upload Attachmenets For Students in "show page" of "student"
             Route::post('Upload_attachment', 'StudentController@Upload_attachment')->name('Upload_attachment');
+            // fetch "states" of selected "country" selectbox
+            Route::post('students/fetch-state',[StudentStudentController::class,'FetchState']);
+            // fetch "cities" of selected "state" selectbox
+            Route::post('students/fetch-city',[StudentStudentController::class,'FetchCity']);
+            // fetch "quarters" of selected "state" selectbox
+            Route::post('students/fetch-quarter',[StudentStudentController::class,'FetchQuarter']);
+            // +++++++++++++++++++ Add "new region" +++++++++++++++++++
+            Route::post('students/create/storeRegion', [StudentStudentController::class,'storeRegion'])->name('students.storeRegion');
+            // +++++++++++++++++++ Add "new quarter" +++++++++++++++++++
+            Route::post('students/create/storeQuarter', [StudentStudentController::class,'storeQuarter'])->name('students.storeQuarter');
         });
     }
 );

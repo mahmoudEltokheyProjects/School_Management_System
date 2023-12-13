@@ -39,8 +39,14 @@ return [
     'Close' => 'الغاء' ,
     'delete' => 'حذف',
     'Download' => 'تحميل',
-
-
+    'country' => 'الدولة' ,
+    'state' => 'المحافظة' ,
+    'city' => 'المنطقة' ,
+    'quarter' =>'الحي',
+    'add_city' => 'اضافة منطقة جديد',
+    'add_quarter' => 'اضافة حي جديد',
+    'quarter_name' => 'اسم الحي',
+    'city_name' => 'اسم المنطقة',
 
 
 

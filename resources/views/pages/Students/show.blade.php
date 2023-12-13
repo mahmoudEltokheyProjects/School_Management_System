@@ -80,14 +80,25 @@
                                             </tr>
                                             {{-- +++++++++++ Row +++++++++++ --}}
                                             <tr>
+                                                <th scope="row">{{trans('Student_trans.country')}}</th>
+                                                <td>{{ $Student->country->name }}</td>
+                                                <th scope="row">{{trans('Student_trans.state')}}</th>
+                                                <td>{{$Student->state->name}}</td>
+                                                <th scope="row">{{trans('Student_trans.city')}}</th>
+                                                <td>{{$Student->city->name}}</td>
+                                                <th scope="row">{{trans('Student_trans.quarter')}}</th>
+                                                <td>{{$Student->quarter->name}}</td>
+                                            </tr>
+                                            {{-- +++++++++++ Row +++++++++++ --}}
+                                            <tr>
                                                 <th scope="row">{{trans('Student_trans.parent')}}</th>
                                                 <td>{{ $Student->myparent->Name_Father}}</td>
                                                 <th scope="row">{{trans('Student_trans.academic_year')}}</th>
                                                 <td>{{ $Student->academic_year }}</td>
-                                                <th scope="row"></th>
-                                                <td></td>
-                                                <th scope="row"></th>
-                                                <td></td>
+                                                <th scope="row">{{trans('Student_trans.section')}}</th>
+                                                <td>{{$Student->section->Name_Section}}</td>
+                                                <th scope="row">{{trans('Student_trans.Date_of_Birth')}}</th>
+                                                <td>{{ $Student->Date_Birth}}</td>
                                             </tr>
                                         </tbody>
                                     </table>

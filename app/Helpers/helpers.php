@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Classroom;
+use App\Models\Country;
 use App\Models\Gender;
 use App\Models\Grade;
 use App\Models\My_Parent;
@@ -48,6 +49,11 @@ use App\Models\Teacher;
     function getBloods()
     {
         return Type_Blood::all();
+    }
+    // +++++++++++++++++++++++++ getCountries() : Get "All Countries" +++++++++++++++++++++++++
+    function getCountries()
+    {
+        return Country::all();
     }
 
 

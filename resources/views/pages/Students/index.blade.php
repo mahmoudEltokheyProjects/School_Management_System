@@ -31,8 +31,8 @@
                         <div class="card card-statistics h-100">
                             <div class="card-body">
                                 {{-- +++++++++++++++++++++ "Add Student" Button +++++++++++++++++++++ --}}
-                                <a href="{{route('Student.create')}}" class="btn btn-success btn-md" role="button"
-                                   aria-pressed="true"> <i class="fa fa-plus"></i> {{trans('main_trans.add_student')}}
+                                <a href="{{route('Student.create')}}" class="btn btn-success nextBtn btn-md pull-left" role="button"
+                                   aria-pressed="true"> <i class="fa fa-plus"></i> {{trans('student_trans.add_student')}}
                                 </a>
                                 <br><br>
                                 {{-- ++++++++++++++++++++ date search +++++++++++++ --}}

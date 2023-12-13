@@ -46,4 +46,12 @@ return [
     'Processes' => 'Processes',
     'delete' => 'Delete',
     'Download' => 'Download',
+    'country' => 'Country' ,
+    'state' => 'State' ,
+    'city' => 'City' ,
+    'quarter' =>'Quarter',
+    'add_city' => 'Add City',
+    'add_quarter' => 'Add Quarter',
+    'quarter_name' => 'quarter name',
+    'city_name' => 'city name',
 ];
